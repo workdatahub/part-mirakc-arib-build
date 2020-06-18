@@ -1,0 +1,11 @@
+--- CMakeLists.txt	2020-06-19 22:24:32.304285291 +0900
++++ CMakeLists.txt	2020-06-19 22:25:49.793843733 +0900
+@@ -403,6 +403,8 @@
+     https://github.com/masnagam/tsduck-arib.git
+   GIT_TAG
+     ${MIRAKC_ARIB_TSDUCK_ARIB_VERSION}
++  PATCH_COMMAND
++    patch -p0 < ${CMAKE_SOURCE_DIR}/patches/tsUDPSocket.patch    
+   BUILD_IN_SOURCE
+     YES
+   CONFIGURE_COMMAND

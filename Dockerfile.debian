@@ -1,0 +1,24 @@
+FROM workdatahub/debian-gccspace-japanese AS mirakc-arib-build
+USER root
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -qq
+RUN apt-get install -y -qq --no-install-recommends \
+    ca-certificates curl \
+    cmake git dos2unix make ninja-build autoconf automake libtool pkg-config \
+    g++
+
+RUN mkdir -p /build
+WORKDIR /build
+#RUN curl -fsSL https://github.com/masnagam/mirakc-arib/tarball/master \
+#    | tar -xz --strip-components=1
+#RUN cmake -S . -B . -G Ninja -D CMAKE_BUILD_TYPE=Release
+RUN git clone https://github.com/masnagam/mirakc-arib
+WORKDIR /build/mirakc-arib
+RUN cmake -S . -B . -G Ninja -D CMAKE_BUILD_TYPE=Release
+RUN ninja vendor
+RUN ninja 
+RUN cp bin/mirakc-arib /usr/local/bin/
+
+SHELL ["/bin/sh","-l","-c"]

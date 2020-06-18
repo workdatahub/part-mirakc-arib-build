@@ -1,0 +1,22 @@
+--- src/libtsduck/base/network/tsUDPSocket.cpp	2020-06-18 20:37:03.429160970 +0900
++++ src/libtsduck/base/network/tsUDPSocket.cpp	2020-06-18 21:12:35.006519574 +0900
+@@ -562,6 +562,10 @@
+         return LastSocketErrorCode();
+     }
+ 
++    // Because of invalid definition of CMSG_NXTHDR in musl libc (Alpine Linux)
++    TS_PUSH_WARNING()
++    TS_GCC_NOWARNING(zero-as-null-pointer-constant)
++
+     // Browse returned ancillary data.
+     for (::cmsghdr* cmsg = CMSG_FIRSTHDR(&hdr); cmsg != nullptr; cmsg = CMSG_NXTHDR(&hdr, cmsg)) {
+         if (cmsg->cmsg_level == IPPROTO_IP && cmsg->cmsg_type == IP_PKTINFO && cmsg->cmsg_len >= sizeof(::in_pktinfo)) {
+@@ -570,6 +574,8 @@
+         }
+     }
+ 
++    TS_POP_WARNING()
++    
+ #endif // Windows vs. UNIX
+ 
+     // Successfully received a message
