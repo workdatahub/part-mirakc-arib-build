@@ -1,4 +1,12 @@
 #!/bin/bash
+
+#  実行ファイルに必要な共有ライブラリをリスト化する。
+#
+#  - 使い方 - 
+#  ./exliblist.sh [実行バイナリファイルのフルパスをリスト化したファイル名] [共有ライブラリのリスト化を出力するファイル名]
+#
+#  Designed On 2020.05 By kurukurumaware
+
 LF="
 "
 var_no=0
@@ -20,7 +28,6 @@ function search_Link(){
             var_libraryPathList="${var_libraryPathList}""${var_linkPath}"$LF
             printf "\033[36madd link source: %s\033[m\n" $var_linkPath
             search_Link $var_linkPath
-            search_Library $var_linkPath
         fi
     fi
 }
@@ -77,3 +84,4 @@ executFileListProcess $1
 printf "\n----- 依存ライブラリリスト -------\n"
 printf "$var_libraryPathList"
 printf "$var_libraryPathList" > $outputFilename
+
