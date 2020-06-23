@@ -24,9 +24,11 @@ RUN echo /usr/local/bin/mirakc-arib >> binlist
 RUN ./exliblist.sh binlist copylist
 
 RUN echo /usr/local/bin/mirakc-arib >> copylist
-RUN ./lcopy.sh copylist /copydir
+# RUN ./lcopy.sh copylist /copydir
 
 # dockerhubでビルド後必要な部分のみ利用出来るようにする
-FROM scratch
+# FROM scratch
 
-COPY --from=Mirakc-arib-build /copydir /copydir
+# COPY --from=Mirakc-arib-build /copydir /copydir
+
+SHELL ["/bin/sh","-l","-c"]
